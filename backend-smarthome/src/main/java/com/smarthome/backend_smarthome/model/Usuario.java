@@ -25,13 +25,9 @@ public class Usuario {
     @Column(name = "senha" ,length = 11, nullable = false)
      private String senha ;
 
-    public Long getId_usuario() {
-        return id_usuarios;
-    }
+    public Long getId_usuarios() {return id_usuarios;}
 
-    public void setId_usuario(Long id_usuario) {
-        this.id_usuarios = id_usuario;
-    }
+    public void setId_usuarios(Long id_usuarios) {this.id_usuarios = id_usuarios;}
 
     public String getSenha() {
           return senha;

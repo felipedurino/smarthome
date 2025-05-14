@@ -1,6 +1,6 @@
 package com.smarthome.backend_smarthome.controller;
 
-import com.smarthome.backend_smarthome.DAO.InterfaceUsuario;
+import com.smarthome.backend_smarthome.repository.InterfaceUsuario;
 import com.smarthome.backend_smarthome.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
