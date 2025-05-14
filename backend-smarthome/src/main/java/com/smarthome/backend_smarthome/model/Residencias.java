@@ -16,11 +16,15 @@ public class Residencias {
     private String numero_da_casa;
     @Column(name = "cep",length = 8, nullable = false)
     private String cep;
-
+    @Column(name = "estado", length = 2, nullable = false)
+    private String estado;
     @ManyToOne
-    @JoinColumn(name = "usuario_id_usuario", nullable = false)
+    @JoinColumn(name = "usuario_id_usuarios", nullable = false)
     private Usuario usuario;
 
+    public String getEstado() {return estado; }
+
+    public void setEstado(String estado) {this.estado = estado; }
 
     public Long getId_residencia() {
         return id_residencia;

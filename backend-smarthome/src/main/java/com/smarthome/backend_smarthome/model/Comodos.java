@@ -5,15 +5,16 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "comodos")
 
-public class Comodo {
+public class Comodos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_comodo;
     @Column(name = "nome_do_comodo",length = 100, nullable = false)
     private String nome_do_comodo;
-
+    @Column(name = "numero_comodo",length = 100, nullable = true)
+    private int numero_comodo;
     @ManyToOne
-    @JoinColumn(name = "residencias_id_residencia", nullable = false)
+    @JoinColumn(name = "residencias_id_residencias")
     private Residencias residencia;
 
     public Long getId_comodo() {
@@ -38,5 +39,13 @@ public class Comodo {
 
     public void setResidencia(Residencias residencia) {
         this.residencia = residencia;
+    }
+
+    public int getNumero_comodo() {
+        return numero_comodo;
+    }
+
+    public void setNumero_comodo(int numero_comodo) {
+        this.numero_comodo = numero_comodo;
     }
 }
