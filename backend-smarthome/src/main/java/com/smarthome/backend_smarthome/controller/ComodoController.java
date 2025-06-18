@@ -5,6 +5,7 @@ import com.smarthome.backend_smarthome.repository.InterfaceResidencias;
 import com.smarthome.backend_smarthome.model.Comodos;
 import com.smarthome.backend_smarthome.model.Residencias;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,5 +35,10 @@ public class ComodoController {
             comodo.setResidencia(residencia);
             return dao.save(comodo);
         }).collect(Collectors.toList());
+    }
+    @GetMapping("/comodos/residencia/{idResidencia}")
+    public ResponseEntity<List<Comodos>> listarComodosPorResidencia(@PathVariable Long idResidencia) {
+        List<Comodos> comodos = dao.findByResidenciaId(idResidencia);
+        return ResponseEntity.ok(comodos);
     }
 }

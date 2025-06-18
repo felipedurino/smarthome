@@ -9,7 +9,8 @@ public class Residencias {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_residencia;
+    @Column(name = "id_residencia")
+    private Long id;
     @Column(name = "rua", nullable = false)
     private String rua;
     @Column(name = "numero_da_casa",length = 1000, nullable = false)
@@ -27,11 +28,11 @@ public class Residencias {
     public void setEstado(String estado) {this.estado = estado; }
 
     public Long getId_residencia() {
-        return id_residencia;
+        return id;
     }
 
     public void setId_residencia(Long id_residencia) {
-        this.id_residencia = id_residencia;
+        this.id = id_residencia;
     }
 
     public String getRua() {

@@ -12,7 +12,8 @@ import java.time.LocalDate;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     private Long id_usuarios;
+    @Column(name = "id_usuarios")
+     private Long id;
     @Column(name = "nome",length = 100, nullable = false)
     private String nome;
     @Column(name = "cpf",length = 11, nullable = false)
@@ -25,9 +26,9 @@ public class Usuario {
     @Column(name = "senha" ,length = 11, nullable = false)
      private String senha ;
 
-    public Long getId_usuarios() {return id_usuarios;}
+    public Long getId_usuarios() {return id;}
 
-    public void setId_usuarios(Long id_usuarios) {this.id_usuarios = id_usuarios;}
+    public void setId_usuarios(Long id_usuarios) {this.id = id_usuarios;}
 
     public String getSenha() {
           return senha;

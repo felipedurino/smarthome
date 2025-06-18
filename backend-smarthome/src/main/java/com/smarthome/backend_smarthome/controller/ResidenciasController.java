@@ -6,6 +6,7 @@ import com.smarthome.backend_smarthome.repository.InterfaceUsuario;
 import com.smarthome.backend_smarthome.model.Residencias;
 import com.smarthome.backend_smarthome.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +36,18 @@ public class ResidenciasController {
         residencias.setUsuario(usuario);
 
         return dao.save(residencias);
+    }
+    @GetMapping("/ProcurarResidencia/{idUsuario}")
+    public ResponseEntity<Boolean> procurarResidencia(@PathVariable Long idUsuario) {
+        boolean temResidencia = dao.existsByUsuario_id(idUsuario);
+        return ResponseEntity.ok(temResidencia);
+    }
+
+    @GetMapping("/residenciaPorUsuario/{idUsuario}")
+    public ResponseEntity<Residencias> buscarResidenciaPorUsuario(@PathVariable Long idUsuario) {
+        return dao.findByUsuario_Id(idUsuario)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
 }
