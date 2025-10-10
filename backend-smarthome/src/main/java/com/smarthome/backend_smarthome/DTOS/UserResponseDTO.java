@@ -1,12 +1,13 @@
 package com.smarthome.backend_smarthome.DTOS;
 
+import lombok.Data;
 import java.time.LocalDate;
 
+@Data
 public class UserResponseDTO {
-    private String id;
-    private String nome;
+    private Long id;
+    private String name;
     private Long identification;
-    private LocalDate dt_de_nascimento;
+    private LocalDate birthDate;
     private String email;
-    private String senha;
 }

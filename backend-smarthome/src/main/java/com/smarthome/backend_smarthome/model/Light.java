@@ -1,23 +1,23 @@
 package com.smarthome.backend_smarthome.model;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import javax.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "lights")
-@Getter
-@Setter
-
+@Data
+@NoArgsConstructor
 public class Light {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    
     @Column(name = "is_on", nullable = false)
     private boolean isOn;
+    
     @ManyToOne
-    @JoinColumn(name = "room_id")
+    @JoinColumn(name = "room_id", nullable = false)
     private Room room;
-
 }
