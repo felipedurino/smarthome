@@ -32,9 +32,9 @@ public class UsuarioController {
         Optional<Usuario> usuarioExistente = dao.findByEmail(usuario.getEmail());
 
         if (usuarioExistente.isPresent()) {
-            Usuario u = usuarioExistente.get();
-            if (u.getSenha().equals(usuario.getSenha())) {
-                return ResponseEntity.ok(u);
+            Usuario usuarioRetorno = usuarioExistente.get();
+            if (usuarioRetorno.getSenha().equals(usuarioRetorno.getSenha())) {
+                return ResponseEntity.ok(usuarioRetorno);
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Senha incorreta");
             }
