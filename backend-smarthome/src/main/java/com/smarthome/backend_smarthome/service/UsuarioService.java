@@ -2,7 +2,6 @@ package com.smarthome.backend_smarthome.service;
 
 import com.smarthome.backend_smarthome.model.Usuario;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UsuarioService {
