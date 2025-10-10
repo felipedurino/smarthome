@@ -1,9 +1,14 @@
 package com.smarthome.backend_smarthome.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "lights")
+@Getter
+@Setter
+
 public class Light {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,27 +20,4 @@ public class Light {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public boolean isOn() {
-        return isOn;
-    }
-
-    public void setOn(boolean isOn) {
-        this.isOn = isOn;
-    }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
 }
