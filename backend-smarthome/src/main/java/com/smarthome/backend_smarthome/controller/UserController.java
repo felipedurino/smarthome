@@ -2,6 +2,7 @@ package com.smarthome.backend_smarthome.controller;
 
 import com.smarthome.backend_smarthome.repository.UserRepository;
 import com.smarthome.backend_smarthome.model.User;
+import com.smarthome.backend_smarthome.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,31 +17,46 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<User> findAll() {
+        return userService.findAllUsers();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<User> findById(@PathVariable long id) {
+        Optional<User> user=userService.findUserById(id);
+        return user.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
-        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
-
-        if (existingUser.isPresent()) {
-            User u = existingUser.get();
-            if (u.getPassword().equals(user.getPassword())) {
-                return ResponseEntity.ok(u);
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        try {
+            User savedUser= userService.registerUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(null);
         }
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody User user) {
+        try {
+            User savedUser= userService.updateUser(id, user);
+            return ResponseEntity.ok(savedUser);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<User> deleteUser(@PathVariable long id) {
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.ok().build();
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
 }
