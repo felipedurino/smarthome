@@ -1,6 +1,5 @@
-package com.smarthome.backend_smarthome.controller;
+package com.smarthome.backend_smarthome.controller.api;
 
-import com.smarthome.backend_smarthome.repository.UserRepository;
 import com.smarthome.backend_smarthome.model.User;
 import com.smarthome.backend_smarthome.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
