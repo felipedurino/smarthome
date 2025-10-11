@@ -1,23 +1,30 @@
-package com.smarthome.backend_smarthome.service;
+package com.smarthome.backend_smarthome.service.serviceImpl;
 
 import com.smarthome.backend_smarthome.model.User;
 import com.smarthome.backend_smarthome.repository.UserRepository;
+import com.smarthome.backend_smarthome.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImp implements UserService {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public User registerUser(User user) {
         if (user.getName()== null || user.getName().isEmpty()) {
             throw new IllegalArgumentException("Nome é invalido");
         }
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
         if(user.getEmail()== null || user.getEmail().isEmpty() ||!user.getEmail().contains("@")) {
             throw new IllegalArgumentException("Email é invalido");
         }
@@ -49,6 +56,8 @@ public class UserServiceImp implements UserService {
                     });
             existingUser.setEmail(newEmail);
         }
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
         if(user.getPassword() !=null && !user.getPassword().trim().isEmpty()) {
             existingUser.setPassword(user.getPassword());
         }

@@ -1,7 +1,7 @@
 package com.smarthome.backend_smarthome.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

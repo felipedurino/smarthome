@@ -1,4 +1,4 @@
-package com.smarthome.backend_smarthome.DTOS;
+package com.smarthome.backend_smarthome.DTOS.response;
 
 import lombok.Data;
 import java.time.LocalDate;

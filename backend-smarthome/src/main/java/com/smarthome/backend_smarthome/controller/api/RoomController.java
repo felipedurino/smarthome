@@ -1,4 +1,4 @@
-package com.smarthome.backend_smarthome.controller;
+package com.smarthome.backend_smarthome.controller.api;
 
 import com.smarthome.backend_smarthome.repository.RoomRepository;
 import com.smarthome.backend_smarthome.repository.ResidenceRepository;
