@@ -4,7 +4,9 @@ import com.smarthome.backend_smarthome.repository.ResidenceRepository;
 import com.smarthome.backend_smarthome.repository.UserRepository;
 import com.smarthome.backend_smarthome.model.Residence;
 import com.smarthome.backend_smarthome.model.User;
+import com.smarthome.backend_smarthome.service.serviceImpl.ResidenceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,25 +19,25 @@ public class ResidenceController {
 
     @Autowired
     private ResidenceRepository residenceRepository;
-
     @Autowired
-    private UserRepository userRepository;
+    private ResidenceServiceImpl residenceService;
+
+
 
     @GetMapping
     public List<Residence> getAllResidences() {
+
         return residenceRepository.findAll();
     }
 
     @PostMapping
-    public Residence createResidence(@RequestBody Residence residence) {
-        Long userId = residence.getUser().getId();
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User with ID " + userId + " not found."));
-
-        residence.setUser(user);
-
-        return residenceRepository.save(residence);
+    public ResponseEntity <Residence> createResidence(@RequestBody Residence residence) {
+        try {
+            Residence savedResidence = residenceService.createResidence(residence);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedResidence);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
     
     @GetMapping("/check/{userId}")

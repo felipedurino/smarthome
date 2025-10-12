@@ -9,13 +9,6 @@ public interface UserService {
 
     User registerUser(User usuario);
 
-    Optional<User> findUserById(long id);
-
     User updateUser(long id, User usuario);
-
-    void deleteUser(long id);
-
-    List<User> findAllUsers();
-
 
 }
