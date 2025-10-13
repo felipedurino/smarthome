@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "name": "Usuário Teste",
+    "identification": 12345678901,
+    "birthDate": "1990-01-01",
+    "email": "teste@teste.com"
+  }
+]

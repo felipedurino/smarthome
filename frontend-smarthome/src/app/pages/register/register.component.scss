@@ -1,0 +1,46 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+mat-card-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+mat-card-actions {
+  justify-content: center;
+  padding: 16px 0;
+}
+
+button[mat-raised-button] {
+  height: 48px;
+  font-size: 16px;
+}
+
+mat-spinner {
+  margin-right: 8px;
+}
+
+mat-card-content {
+  max-height: 70vh;
+  overflow-y: auto;
+}
