@@ -40,13 +40,31 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
-            User savedUser= userService.registerUser(user);
+            User savedUser = userService.registerUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse("Erro interno do servidor"));
+        }
+    }
 
-        }catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(null);
+    public static class ErrorResponse {
+        private String message;
+        
+        public ErrorResponse(String message) {
+            this.message = message;
+        }
+        
+        public String getMessage() {
+            return message;
+        }
+        
+        public void setMessage(String message) {
+            this.message = message;
         }
     }
     @PutMapping("/{id}")
