@@ -16,10 +16,15 @@ public class ResidenceServiceImpl {
     private UserRepository userRepository;
 
     public Residence createResidence(Residence residence){
-        User user= userRepository.findById(residence.getUser().getId())
-                .orElseThrow(() -> new RuntimeException(" ID " + residence.getUser().getId() + " nao foi encontrado."));
+        if (residence.getUser() == null || residence.getUser().getId() == null) {
+            throw new IllegalArgumentException("Usuário não pode ser nulo");
+        }
+        
+        User user = userRepository.findById(residence.getUser().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Usuário com ID " + residence.getUser().getId() + " não foi encontrado."));
+        
         if(!isValidZipCode(residence.getZipCode())) {
-            throw new IllegalArgumentException("CEP invalido");
+            throw new IllegalArgumentException("CEP inválido");
         }
 
         return residenceRepository.save(residence);
