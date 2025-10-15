@@ -1,0 +1,175 @@
+<div class="dashboard-container">
+  <mat-toolbar color="primary" class="dashboard-toolbar">
+    <span>SmartHome Dashboard</span>
+    <span class="spacer"></span>
+    <span class="user-info">{{ userEmail }}</span>
+    <button mat-icon-button (click)="logout()" matTooltip="Logout">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <div class="dashboard-content">
+    <div class="welcome-section">
+      <h1>Bem-vindo ao SmartHome!</h1>
+      <p>Gerencie sua residência inteligente de forma fácil e segura.</p>
+    </div>
+
+    <div class="residence-section">
+      <mat-card class="residence-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>home</mat-icon>
+            {{ hasResidence ? 'Sua Residência' : 'Cadastrar Residência' }}
+          </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div *ngIf="!hasResidence" class="no-residence">
+            <p>Você ainda não cadastrou uma residência. Preencha os dados abaixo para começar:</p>
+            
+            <form [formGroup]="residenceForm" (ngSubmit)="onSubmitResidence()">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Rua</mat-label>
+                <input matInput 
+                       type="text" 
+                       formControlName="street"
+                       placeholder="Nome da rua">
+                <mat-error *ngIf="residenceForm.get('street')?.hasError('required')">
+                  Rua é obrigatória
+                </mat-error>
+                <mat-error *ngIf="residenceForm.get('street')?.hasError('minlength')">
+                  Rua deve ter pelo menos 3 caracteres
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Número</mat-label>
+                <input matInput 
+                       type="text" 
+                       formControlName="houseNumber"
+                       placeholder="Número da casa">
+                <mat-error *ngIf="residenceForm.get('houseNumber')?.hasError('required')">
+                  Número é obrigatório
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>CEP</mat-label>
+                <input matInput 
+                       type="text" 
+                       formControlName="zipCode"
+                       placeholder="00000000"
+                       maxlength="8">
+                <mat-error *ngIf="residenceForm.get('zipCode')?.hasError('required')">
+                  CEP é obrigatório
+                </mat-error>
+                <mat-error *ngIf="residenceForm.get('zipCode')?.hasError('pattern')">
+                  CEP deve ter 8 dígitos
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Estado</mat-label>
+                <input matInput 
+                       type="text" 
+                       formControlName="state"
+                       placeholder="SP"
+                       maxlength="2">
+                <mat-error *ngIf="residenceForm.get('state')?.hasError('required')">
+                  Estado é obrigatório
+                </mat-error>
+                <mat-error *ngIf="residenceForm.get('state')?.hasError('minlength')">
+                  Estado deve ter 2 caracteres
+                </mat-error>
+              </mat-form-field>
+
+              <button mat-raised-button 
+                      color="primary" 
+                      type="submit"
+                      class="full-width"
+                      [disabled]="residenceForm.invalid || isLoading">
+                <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+                <span *ngIf="!isLoading">Cadastrar Residência</span>
+              </button>
+            </form>
+          </div>
+
+          <div *ngIf="hasResidence && currentResidence" class="residence-info">
+            <div class="residence-details">
+              <h3>Informações da Residência</h3>
+              <p><strong>Endereço:</strong> {{ currentResidence.street }}, {{ currentResidence.houseNumber }}</p>
+              <p><strong>CEP:</strong> {{ currentResidence.zipCode }}</p>
+              <p><strong>Estado:</strong> {{ currentResidence.state }}</p>
+            </div>
+            
+            <div class="residence-actions">
+              <button mat-raised-button color="accent">
+                <mat-icon>edit</mat-icon>
+                Editar Residência
+              </button>
+              <button mat-raised-button color="primary">
+                <mat-icon>add</mat-icon>
+                Adicionar Cômodo
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="features-section" *ngIf="hasResidence">
+      <h2>Funcionalidades Disponíveis</h2>
+      <div class="features-grid">
+        <mat-card class="feature-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>lightbulb</mat-icon>
+              Lâmpadas
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Controle as lâmpadas da sua casa</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button color="primary">Gerenciar</button>
+          </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="feature-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>room</mat-icon>
+              Cômodos
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Organize sua casa por cômodos</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button color="primary">Gerenciar</button>
+          </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="feature-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>settings</mat-icon>
+              Configurações
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Configure seu sistema SmartHome</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button color="primary">Configurar</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
