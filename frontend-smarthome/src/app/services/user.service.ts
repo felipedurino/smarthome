@@ -16,6 +16,23 @@ export class UserService {
     return this.http.post<User>(`${this.apiUrl}/users`, user);
   }
 
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/users`, { headers: this.getHeaders() });
+  }
+
+  getUserByEmail(email: string): Observable<User | undefined> {
+    return new Observable<User | undefined>((subscriber) => {
+      this.getAllUsers().subscribe({
+        next: (users) => {
+          const found = users.find(u => u.email === email);
+          subscriber.next(found);
+          subscriber.complete();
+        },
+        error: (err) => subscriber.error(err)
+      });
+    });
+  }
+
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({

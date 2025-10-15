@@ -13,7 +13,6 @@ export class AuthService {
   public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    // Verificar se há token salvo no localStorage
     const token = localStorage.getItem('token');
     if (token) {
       this.currentUserSubject.next(token);

@@ -9,12 +9,12 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { 
-    path: 'dashboard', 
+  {
+    path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [AuthGuard] // Só usuários logados podem acessar
+    canActivate: [AuthGuard]
   },
-  { path: '**', redirectTo: '/login' } // Rota padrão para URLs inválidas
+  { path: '**', redirectTo: '/login' }
 ];
 
 @NgModule({

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../services/auth.service';
 import { ResidenceService } from '../../services/residence.service';
+import { UserService } from '../../services/user.service';
 import { Residence } from '../../models/residence.model';
 
 @Component({
@@ -16,11 +17,13 @@ export class DashboardComponent implements OnInit {
   hasResidence = false;
   currentResidence: Residence | null = null;
   userEmail: string = '';
+  userId: number | null = null;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private residenceService: ResidenceService,
+    private userService: UserService,
     private snackBar: MatSnackBar
   ) {
     this.residenceForm = this.fb.group({
@@ -44,19 +47,32 @@ export class DashboardComponent implements OnInit {
       }
     }
 
-    this.checkExistingResidence();
+    // Com o email, buscar o usuário para obter o ID real
+    if (this.userEmail && this.userEmail !== 'Usuário') {
+      this.userService.getUserByEmail(this.userEmail).subscribe({
+        next: (user) => {
+          if (user && user.id) {
+            this.userId = user.id as unknown as number;
+            this.checkExistingResidence();
+          } else {
+            this.userId = null;
+          }
+        },
+        error: () => {
+          this.userId = null;
+        }
+      });
+    }
   }
 
   checkExistingResidence(): void {
-    // Para simplificar, vamos assumir que o usuário tem ID 1
-    // Em uma aplicação real, você obteria o ID do usuário do token JWT
-    const userId = 1;
-    
-    this.residenceService.checkResidenceExists(userId).subscribe({
+    if (!this.userId) { return; }
+
+    this.residenceService.checkResidenceExists(this.userId).subscribe({
       next: (exists) => {
         this.hasResidence = exists;
         if (exists) {
-          this.loadResidence(userId);
+          this.loadResidence(this.userId!);
         }
       },
       error: (error) => {
@@ -88,7 +104,7 @@ export class DashboardComponent implements OnInit {
       
       const residenceData: Residence = {
         ...this.residenceForm.value,
-        user: { id: 1 } as any // Em uma aplicação real, você obteria o usuário do token
+        user: { id: this.userId! } as any
       };
 
       this.residenceService.createResidence(residenceData).subscribe({
@@ -119,3 +135,4 @@ export class DashboardComponent implements OnInit {
     });
   }
 }
+
